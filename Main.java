@@ -262,6 +262,5 @@ public class Main {
             utility.receiptDisplay();
             System.out.println("-------------------------------------------------------------");
     }
-    // create a method that will show the quantity of all selected equipment
 
 }
