@@ -1,23 +1,31 @@
 package src;
 
-import java.util.ArrayList;
-//import Collection
-import java.util.Collection;
 import java.util.List;
 public class Record {
 
 	private String name;
     private String address;
-    private List<String>item;
-
+    private String item;
+    private double price;
+    private double total;
+    private String refNmuber;
     public void setName(String name) {
          this.name = name;
     }
     public void setAddress(String address) {
         this.address = address;
     }
-    public void setItem(Collection<String> equipment) {
-        this.item = new ArrayList<String>(equipment);
+    public void setItem(List <String> itemEquipment) {
+        this.item = itemEquipment.toString();
+    }
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    public void setTotal(double total) {
+        this.total = total;
+    }
+    public void setRefNmuber(String refNmuber) {
+        this.refNmuber = refNmuber;
     }
     public String getName() {
         return name;
@@ -25,7 +33,16 @@ public class Record {
     public String getAddress() {
         return address;
     }
-    public List<String> getItem() {
-        return new ArrayList<>(item);
+    public String getItem() {
+        return item;
+    }
+    public double getPrice() {
+        return price;
+    }
+    public double getTotal() {
+        return total;
+    }
+    public String getRefNmuber() {
+        return refNmuber;
     }
 }

@@ -20,8 +20,7 @@ public class Voucher {
         }
     }
 
-    public static boolean isValidVoucher(String inVoucher) {
-        return false;
-    }
+    //generate random number with letter and 5 digit
+   
 
 }
