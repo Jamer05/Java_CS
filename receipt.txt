@@ -1,12 +1,13 @@
-Name: Jamer
-Address: qwe
-Item: [chairs->Php200.0]
-Price: Php190.0
+Name: sd
+Address: d
+Contact No.:123
+Item: [videoke->Php350.0]
+Price: Php332.5
 -------------------------------------------------------------
-Cash: Php321.0
+Cash: Php400.0
 -------------------------------------------------------------
-Change: Php131.0
-Ref: FFIIVGNB
+Change: Php67.5
+Ref: RPJMQPUD
 Date:29/10/121
-Time: 8:56:18
+Time: 11:17:59 AM
 -------------------------------------------------------------

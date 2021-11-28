@@ -45,9 +45,11 @@ public class Main {
         Utility utility = new Utility();
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         System.out.println("Welcome to Equipment and Appliances Rental Service");
-        // show the file of receipt if user enter the reference number
-        System.out.print("Press 'O' To rent, Press 'R' to return an item: ");
-        String option = sc.next();
+        String option;
+        do{
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            System.out.print("Press 'O' To rent, Press 'R' to return an item: ");
+            option = sc.next();
             switch(option){
                 case "O": case "o":{
                     break;
@@ -56,8 +58,11 @@ public class Main {
                     //read the ref.txt file
                     admin.forAdmin();
                 }
+                default: {
+                    System.out.println("Invalid option");
             }
-
+        }
+        }while (!option.equalsIgnoreCase("O") && !option.equalsIgnoreCase("R"));
         System.out.print("Please enter your name: ");
         String name = sc.nextLine();
         // dont let user skip this step
@@ -73,6 +78,21 @@ public class Main {
             System.out.print("Please enter your address: ");
             address = sc.nextLine();
         }
+        System.out.print("Please enter your phone number: ");
+        int ph = sc.nextInt();
+        //dont let user inputMismatchException
+        while (ph <= 0) {
+            try {
+                System.out.print("Please enter your phone number: ");
+                ph = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input");
+            }
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            System.out.print("Please enter your phone number: ");
+            ph = sc.nextInt();
+        }
+        
 
         // if user input a mismatch ask again
         while (!isBack) {
@@ -147,9 +167,8 @@ public class Main {
             }
 
         }
-        // if user inputmismatch ask again
+
         int N = Integer.MAX_VALUE;
-        // while cash is a number
         while (N > 0) {
             try {
                 System.out.println("Total: "+utility.totalPrice(itemEquipmentForCalulation, quantity));
@@ -171,7 +190,7 @@ public class Main {
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         System.out.print("Do you have a voucher code? ");
         String voucherCode = sc.next().toLowerCase();
-        // dont let user skip this step
+
         while (!voucherCode.equals("y") && !voucherCode.equals("n")) {
             System.out.print("Do you have a voucher code? ");
             voucherCode = sc.next().toLowerCase();
@@ -184,7 +203,7 @@ public class Main {
             System.out.print("Please enter your voucher code: ");
             String code = sc.next();
             utility.voucherAuth(code);
-            // ask again if utility.voucherAuth(code) return false
+
             while (!utility.voucherAuth(code)) {
                 System.out.print("[Invalid]Please enter your voucher code: ");
                 code = sc.next();
@@ -199,6 +218,7 @@ public class Main {
             date.setTime(System.currentTimeMillis());
             date.setDate(date.getDate() + 1);
             record.setName(name);
+            record.setPhoneNumber(ph);
             record.setAddress(address);
             record.setItem(itemEquipment);
             record.setPrice(discountedItem);
@@ -212,13 +232,13 @@ public class Main {
             conList.conduct(discountedItem);
             System.out.print("Reference Code: " + codeGen);
             System.out.println("\n-------------------------------------------------------------");
-            String receipt = "Name: " + record.getName() + "\nAddress: " + record.getAddress() + "\nItem: "
+            String receipt = "Name: " + record.getName() + "\nAddress: " + record.getAddress() +"\nContact No.:"+record.getPhoneNumber()+"\nItem: "
                     + record.getItem() + "\nPrice: Php" + record.getPrice()
                     + "\n-------------------------------------------------------------" + "\nCash: Php" + cash
                     + "\n-------------------------------------------------------------" + "\nChange: Php"
-                    + record.getTotal() + "\nRef: " + codeGen +"\n"+"Date:"+date.getDate()+"/"+date.getMonth()+"/"+date.getYear()+"\n"
-                    +"Time: "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
-                    + "\n-------------------------------------------------------------";
+                    + record.getTotal() + "\nRef: " + codeGen +"\n"+"Date:"+date.getDate()+"/"+date.getMonth()+"/"+date.getYear()
+                    +isPmOrAm(date)
+                    +"\n-------------------------------------------------------------";
             utility.saveFile(receipt);
             utility.receiptDisplay();
             System.out.println("-------------------------------------------------------------");
@@ -253,14 +273,27 @@ public class Main {
             recordList.saveRef(codeGen);
             System.out.print("Reference Code: " + codeGen);
             System.out.println("\n-------------------------------------------------------------");
-            String receipt = "Name: " + record.getName() + "\nAddress: " + record.getAddress() + "\nItem: "
+            String receipt = "Name: " + record.getName() + "\nAddress: " + record.getAddress() +"Contact No."+record.getPhoneNumber()+ "\nItem: "
                     + record.getItem() + "\nPrice: Php" + record.getPrice()
                     + "\n-------------------------------------------------------------" + "\nCash: Php" + cash
                     + "\n-------------------------------------------------------------" + "\nChange: Php"
-                    + record.getTotal() + "\nRef: " + codeGen +date.getDate()+"\n"+date.getMonth()+"/"+date.getYear()+date.getTime();
+                    + record.getTotal() + "\nRef: " + codeGen +"\n"+"Date:"+date.getDate()+"/"+date.getMonth()+"/"+date.getYear()
+                    +date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
+                    +"\n-------------------------------------------------------------";
             utility.saveFile(receipt);
             utility.receiptDisplay();
             System.out.println("-------------------------------------------------------------");
+
+    }
+    public static String isPmOrAm(Date date){
+
+        if(date.getHours()>=12){
+            return "\nTime: "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+" PM";
+        }
+        else{
+            return "\nTime: "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+" AM";
+        }
+        
     }
 
 }

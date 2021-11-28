@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 public class ConList extends ArrayList {
+    
     private static ConList conlis;
     public void conduct(double price){
         PriceRole priceRole = new PriceRole(price);
@@ -35,7 +36,6 @@ public class ConList extends ArrayList {
 
     public void saved(ConList conList) {
         try {
-
             FileOutputStream out = new FileOutputStream("price.txt");
             ObjectOutputStream oos = new ObjectOutputStream(out);
             oos.writeObject(conList);
