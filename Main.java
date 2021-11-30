@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Date;
-
+import java.util.regex.*;  
 import admin.Admin;
 
 public class Main {
@@ -78,21 +78,18 @@ public class Main {
             System.out.print("Please enter your address: ");
             address = sc.nextLine();
         }
-        System.out.print("Please enter your phone number: ");
-        int ph = sc.nextInt();
-        //dont let user inputMismatchException
-        while (ph <= 0) {
-            try {
-                System.out.print("Please enter your phone number: ");
-                ph = sc.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input");
+        //validate phone number
+        String ph= "";
+        boolean isValid = false;
+        do {
+            System.out.print("Please enter your phone number:(Starts from 9) ");
+            ph = sc.nextLine();
+            if (ph.matches("^[0-9]{10}$")) {
+                isValid = true;
+            } else {
+                System.out.println("Invalid phone number");
             }
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            System.out.print("Please enter your phone number: ");
-            ph = sc.nextInt();
-        }
-        
+        } while (!isValid);
 
         // if user input a mismatch ask again
         while (!isBack) {
@@ -260,6 +257,8 @@ public class Main {
             Date date = new Date();
 
             RecList recordList = RecList.getInstance();
+            ConList conList = ConList.getInstance();
+
             record.setName(name);
             record.setAddress(address);
             record.setItem(itemEquipment);
@@ -271,14 +270,15 @@ public class Main {
             String codeGen = utility.generateRandomCode();
             record.setRefNmuber(codeGen);
             recordList.saveRef(codeGen);
+            conList.conduct(record.getPrice());
             System.out.print("Reference Code: " + codeGen);
             System.out.println("\n-------------------------------------------------------------");
-            String receipt = "Name: " + record.getName() + "\nAddress: " + record.getAddress() +"Contact No."+record.getPhoneNumber()+ "\nItem: "
+            String receipt = "Name: " + record.getName() + "\nAddress: " + record.getAddress() +"\nContact No.:"+record.getPhoneNumber()+"\nItem: "
                     + record.getItem() + "\nPrice: Php" + record.getPrice()
                     + "\n-------------------------------------------------------------" + "\nCash: Php" + cash
                     + "\n-------------------------------------------------------------" + "\nChange: Php"
                     + record.getTotal() + "\nRef: " + codeGen +"\n"+"Date:"+date.getDate()+"/"+date.getMonth()+"/"+date.getYear()
-                    +date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
+                    +isPmOrAm(date)
                     +"\n-------------------------------------------------------------";
             utility.saveFile(receipt);
             utility.receiptDisplay();

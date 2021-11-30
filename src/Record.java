@@ -9,7 +9,7 @@ public class Record {
     private double price;
     private double total;
     private String refNmuber;
-    private int phoneNumber;
+    private String phoneNumber;
     public void setName(String name) {
          this.name = name;
     }
@@ -28,8 +28,8 @@ public class Record {
     public void setRefNmuber(String refNmuber) {
         this.refNmuber = refNmuber;
     }
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumber(String ph) {
+        this.phoneNumber = ph;
     }
     public String getName() {
         return name;
@@ -49,7 +49,7 @@ public class Record {
     public String getRefNmuber() {
         return refNmuber;
     }
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 }

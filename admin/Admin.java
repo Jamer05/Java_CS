@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
-
 import src.ConList;
 import src.PriceRole;
 import src.RecList;
@@ -17,7 +16,7 @@ public class Admin {
         Scanner sc = new Scanner(System.in);
         boolean isBack = false;
         // dont let user input wrong reference number
-        while (!isBack) {
+        do{
             try {
                 System.out.print("Enter the reference number:");
                 String referenceNumber = sc.nextLine();
@@ -32,6 +31,7 @@ public class Admin {
                         String line;
                         while ((line = br1.readLine()) != null) {
                             System.out.println(line);
+                            
                         }
                         isBack = true;
                         br1.close();
@@ -39,24 +39,36 @@ public class Admin {
                     if (!ref.refMe.equals(referenceNumber)) {
                         System.out.println("Invalid reference number");
                         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-                        
+                        isBack = false;
                     }
                 }
             } catch (IOException e) {
                 System.out.println("Error: " + e);
             }
-            
-        }
-        final double CONDUCT_PER_HOUR = 10;
-        System.out.print("Is client late: ");
+        }while (!isBack);
+        final double CONDUCT_PER_HOUR = 7.5;
+        System.out.print("Is client late:(yes or no) ");
         String late = sc.nextLine();
         while (!late.equals("yes") && !late.equals("no")) {
             System.out.print("Invalid input, please enter yes or no:");
             late = sc.nextLine();
         }
         if (late.equals("yes")) {
-            System.out.print("Enter the number of hours late: ");
-            int hoursLate = sc.nextInt();
+             //dont let user inputMismatchException in entering the hours late
+            int hoursLate = 0;
+            do {
+                try {
+                    System.out.print("Enter the number of hours late:");
+                     hoursLate = sc.nextInt();
+                    if (hoursLate < 0) {
+                        System.out.println("Invalid input, please enter a positive number");
+                    }
+
+                }catch (NumberFormatException e) {
+                    System.out.println("Invalid input, please enter a positive number");
+                    isBack = false;
+                }
+            }while (hoursLate < 0);
             double strict = CONDUCT_PER_HOUR * hoursLate;
             computeConducted(strict);
             System.out.println("Charge: "+strict);
@@ -69,14 +81,15 @@ public class Admin {
             
         }
         System.exit(0);  
+        sc.close();
     }
     public void computeConducted(double conduct){
         ConList conList = ConList.getInstance();
         Scanner sc = new Scanner(System.in);
-        for(int i = 0; i < 1; i++){
-            PriceRole priceRole = (PriceRole) conList.get(i);
+        for(int i = 0; i <1; i++){
+            PriceRole priceRole = (PriceRole) conList.get(i);;
             priceRole.price += conduct;
-            System.out.println("The new price is: " + priceRole.price);
+
         }
         
     }
