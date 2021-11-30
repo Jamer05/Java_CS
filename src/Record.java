@@ -10,6 +10,8 @@ public class Record {
     private double total;
     private String refNmuber;
     private String phoneNumber;
+    private int days;
+
     public void setName(String name) {
          this.name = name;
     }
@@ -31,6 +33,10 @@ public class Record {
     public void setPhoneNumber(String ph) {
         this.phoneNumber = ph;
     }
+    public void setDays(int days) {
+        this.days = days;
+    }
+
     public String getName() {
         return name;
     }
@@ -51,5 +57,8 @@ public class Record {
     }
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+    public int getDays() {
+        return days;
     }
 }

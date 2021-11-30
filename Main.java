@@ -30,7 +30,8 @@ public class Main {
     private static int quantity;
     private static String item;
     private static double cash;
-
+    private static String ph= "";
+    private static int days;
     public static void main(String[] args) throws IOException, InterruptedException {
 
         Scanner sc = new Scanner(System.in);
@@ -79,7 +80,7 @@ public class Main {
             address = sc.nextLine();
         }
         //validate phone number
-        String ph= "";
+        
         boolean isValid = false;
         do {
             System.out.print("Please enter your phone number:(Starts from 9) ");
@@ -164,16 +165,28 @@ public class Main {
             }
 
         }
+        boolean isValidDays = false; 
+        do {
+            try {
+                System.out.print("Please enter how many days you want to rent: ");
+                days = sc.nextInt();
+                isValidDays = true;
+            } catch (InputMismatchException e) {
+                sc.next();
+                System.out.println("Error: Wrong input");
+                isValidDays = false;
+            }
 
+        } while (!isValidDays);
         int N = Integer.MAX_VALUE;
         while (N > 0) {
             try {
-                System.out.println("Total: "+utility.totalPrice(itemEquipmentForCalulation, quantity));
+                System.out.println("Total: "+utility.totalPrice(itemEquipmentForCalulation, quantity,days));
                 System.out.print("Please enter your cash: ");
                 cash = sc.nextDouble();
                 N = 0;
                 // if cash is less than the total price
-                while (cash < utility.totalPrice(itemEquipmentForCalulation, quantity)) {
+                while (cash < utility.totalPrice(itemEquipmentForCalulation, quantity,days)) {
                     System.out.println("You don't have enough money");
                     System.out.print("Please enter your cash: ");
                     cash = sc.nextDouble();
@@ -184,6 +197,12 @@ public class Main {
                 N = Integer.MAX_VALUE;
             }
         }
+        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        //Ask user how many days with validating input
+        //if user enters words or negative number ask again
+  
+
+
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         System.out.print("Do you have a voucher code? ");
         String voucherCode = sc.next().toLowerCase();
@@ -209,7 +228,7 @@ public class Main {
             final double DISCOUNT = 5;
             double sales = 0.0;
             sales = 100 - DISCOUNT;
-            double discountedItem = utility.totalPrice(itemEquipmentForCalulation, quantity) * sales / 100;
+            double discountedItem = utility.totalPrice(itemEquipmentForCalulation, quantity,days) * sales / 100;
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
 
             date.setTime(System.currentTimeMillis());
@@ -219,6 +238,7 @@ public class Main {
             record.setAddress(address);
             record.setItem(itemEquipment);
             record.setPrice(discountedItem);
+            record.setDays(days);
             record.setTotal(utility.computeCash(record.getPrice(), cash));
             // write the record to the file
             System.out.println("-------------------------------------------------------------");
@@ -230,7 +250,7 @@ public class Main {
             System.out.print("Reference Code: " + codeGen);
             System.out.println("\n-------------------------------------------------------------");
             String receipt = "Name: " + record.getName() + "\nAddress: " + record.getAddress() +"\nContact No.:"+record.getPhoneNumber()+"\nItem: "
-                    + record.getItem() + "\nPrice: Php" + record.getPrice()
+                    + record.getItem() + "\nPrice: Php" + record.getPrice() + "\nDays: " + record.getDays()
                     + "\n-------------------------------------------------------------" + "\nCash: Php" + cash
                     + "\n-------------------------------------------------------------" + "\nChange: Php"
                     + record.getTotal() + "\nRef: " + codeGen +"\n"+"Date:"+date.getDate()+"/"+date.getMonth()+"/"+date.getYear()
@@ -262,8 +282,10 @@ public class Main {
             record.setName(name);
             record.setAddress(address);
             record.setItem(itemEquipment);
-            record.setPrice(utility.totalPrice(itemEquipmentForCalulation, quantity));
+            record.setPrice(utility.totalPrice(itemEquipmentForCalulation, quantity,days));
             record.setTotal(utility.computeCash(record.getPrice(), cash));
+            record.setPhoneNumber(ph);
+            record.setDays(days);
             // write the record to the file
             System.out.println("-------------------------------------------------------------");
             utility.countEquipment(item, itemEquipmentForCalulation);
@@ -274,7 +296,7 @@ public class Main {
             System.out.print("Reference Code: " + codeGen);
             System.out.println("\n-------------------------------------------------------------");
             String receipt = "Name: " + record.getName() + "\nAddress: " + record.getAddress() +"\nContact No.:"+record.getPhoneNumber()+"\nItem: "
-                    + record.getItem() + "\nPrice: Php" + record.getPrice()
+                    + record.getItem() + "\nPrice: Php" + record.getPrice()+ "\nDays: " + record.getDays()
                     + "\n-------------------------------------------------------------" + "\nCash: Php" + cash
                     + "\n-------------------------------------------------------------" + "\nChange: Php"
                     + record.getTotal() + "\nRef: " + codeGen +"\n"+"Date:"+date.getDate()+"/"+date.getMonth()+"/"+date.getYear()

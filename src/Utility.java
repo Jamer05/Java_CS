@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
+
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.util.List;
 
-public class Utility implements UtilityInterface {
+public class Utility{
     private final static String VOUCHER = "voucher.txt";  
     public void tableDisplay() {
         System.out.println("--------------------------------");
@@ -39,7 +39,7 @@ public class Utility implements UtilityInterface {
         }
     }
 
-    @Override
+
     public void receiptDisplay() throws FileNotFoundException, IOException{
         
        BufferedReader br = new BufferedReader(new FileReader("receipt.txt"));
@@ -83,7 +83,7 @@ public class Utility implements UtilityInterface {
         fr.close();
         return false;
     }
-    @Override
+
     public  boolean confirmEquipment(String item){
         String equipment [] = {"videoke","tables","chairs"};
         for (String i : equipment){
@@ -93,7 +93,7 @@ public class Utility implements UtilityInterface {
         }
         return false;
     }
-    @Override
+
     public double equivalentPrice(String i) {
         double price =0;
         switch(i){
@@ -109,29 +109,30 @@ public class Utility implements UtilityInterface {
         }
         return price;
     }
-    @Override
-    public double totalPrice(List<String> itemEquipment, int quantity){
+    public double totalPrice(List<String> itemEquipment, int quantity,int days){
         double price =0;
         for (String i : itemEquipment){
             price += equivalentPrice(i);
+            days*=price;
         }
-        return price;
+        return days;
     }
-    @Override
     public double compute(int [] items){
         double total = 0;
         for (int i = 0; i < items.length; i++) {
             total += items[i];
+ 
         }
 
         return total;
     }
-    @Override
+
     public double computeCash(double price, double cash) {
         double change = cash - price;
+
         return change; 
     }
-    @Override
+
     public void countEquipment(String item, List<String> itemEquipmentForCalulation) {
         int count = 0;
         for(String itemEquipment: itemEquipmentForCalulation){

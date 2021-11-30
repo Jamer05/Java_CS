@@ -1,13 +1,14 @@
-Name: sd
-Address: d
-Contact No.:123
-Item: [videoke->Php350.0]
-Price: Php332.5
+Name: jamer
+Address: qwew
+Contact No.:9777325694
+Item: [chairs->Php200.0]
+Price: Php570.0
+Days: 3
 -------------------------------------------------------------
-Cash: Php400.0
+Cash: Php600.0
 -------------------------------------------------------------
-Change: Php67.5
-Ref: RPJMQPUD
-Date:29/10/121
-Time: 11:17:59 AM
+Change: Php30.0
+Ref: SDYPRUNL
+Date:1/11/121
+Time: 12:52:29 PM
 -------------------------------------------------------------

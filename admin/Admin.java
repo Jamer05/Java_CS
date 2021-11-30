@@ -46,7 +46,7 @@ public class Admin {
                 System.out.println("Error: " + e);
             }
         }while (!isBack);
-        final double CONDUCT_PER_HOUR = 7.5;
+        final double CONDUCT_PER_HOUR = 2.35;
         System.out.print("Is client late:(yes or no) ");
         String late = sc.nextLine();
         while (!late.equals("yes") && !late.equals("no")) {
