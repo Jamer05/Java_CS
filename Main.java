@@ -114,28 +114,28 @@ public class Main {
                     item = sc.next().toLowerCase();
 
                     if (!itemEquipment.contains(item)) {
-                        itemEquipment.add(item + "->Php" + utility.equivalentPrice(item));
+                        itemEquipment.add(item.concat("->Php")+utility.equivalentPrice(item));
                     }
                     itemEquipmentForCalulation.add(item);
 
                     while (!utility.confirmEquipment(item)) {
-                        itemEquipment.remove(item + "->Php" + utility.equivalentPrice(item));
+                        itemEquipment.remove(item.concat("->Php")+utility.equivalentPrice(item));
 
                         System.err.println("Invalid input");
                         System.out.print("Please enter equipment " + (i + 1) + ": ");
                         item = sc.next().toLowerCase();
 
                         if (!itemEquipment.contains(item)) {
-                            itemEquipment.add(item + "->Php" + utility.equivalentPrice(item));
+                            itemEquipment.add(item);
                         }
-                        itemEquipmentForCalulation.add(item);
+                        itemEquipment.add(item.concat("->Php")+utility.equivalentPrice(item));
                     }
                     if (utility.confirmEquipment(item)) {
-                        System.out.print("Are you sure you want to rent this: (Y/N) ");
+                        System.out.print("Are you sure you want to rent this: PRESS(ANY/N) ");
                         String answer = sc.next().toLowerCase();
 
                         while (answer.equals("n")) {
-                            itemEquipment.remove(item + "->Php" + utility.equivalentPrice(item));
+                            itemEquipment.remove(item);
                             itemEquipmentForCalulation.remove(item);
                             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
                             utility.tableDisplay();
@@ -144,11 +144,11 @@ public class Main {
                             item = sc.next().toLowerCase();
 
                             if (utility.confirmEquipment(item)) {
-                                System.out.print("Are you sure you want to rent this: (Y/N) ");
+                                System.out.print("Are you sure you want to rent this: PRESS(ANY/N) ");
                                 answer = sc.next().toLowerCase();
 
                                 if (!itemEquipment.contains(item)) {
-                                    itemEquipment.add(item + "->Php" + utility.equivalentPrice(item));
+                                    itemEquipment.add(item.concat("->Php")+utility.equivalentPrice(item));
                                 }
                                 itemEquipmentForCalulation.add(item);
                             }
@@ -198,9 +198,6 @@ public class Main {
             }
         }
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        //Ask user how many days with validating input
-        //if user enters words or negative number ask again
-  
 
 
         new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -250,7 +247,7 @@ public class Main {
             System.out.print("Reference Code: " + codeGen);
             System.out.println("\n-------------------------------------------------------------");
             String receipt = "Name: " + record.getName() + "\nAddress: " + record.getAddress() +"\nContact No.:"+record.getPhoneNumber()+"\nItem: "
-                    + record.getItem() + "\nPrice: Php" + record.getPrice() + "\nDays: " + record.getDays()
+                    + record.getItem() + "\nPrice:[Discounted (5%)] Php" + record.getPrice() + "\nDay"+days(days)+":"+ record.getDays()
                     + "\n-------------------------------------------------------------" + "\nCash: Php" + cash
                     + "\n-------------------------------------------------------------" + "\nChange: Php"
                     + record.getTotal() + "\nRef: " + codeGen +"\n"+"Date:"+date.getDate()+"/"+date.getMonth()+"/"+date.getYear()
@@ -296,7 +293,7 @@ public class Main {
             System.out.print("Reference Code: " + codeGen);
             System.out.println("\n-------------------------------------------------------------");
             String receipt = "Name: " + record.getName() + "\nAddress: " + record.getAddress() +"\nContact No.:"+record.getPhoneNumber()+"\nItem: "
-                    + record.getItem() + "\nPrice: Php" + record.getPrice()+ "\nDays: " + record.getDays()
+                    + record.getItem() + "\nPrice: Php" + record.getPrice()+"\nDay"+days(days)+":"+ record.getDays()
                     + "\n-------------------------------------------------------------" + "\nCash: Php" + cash
                     + "\n-------------------------------------------------------------" + "\nChange: Php"
                     + record.getTotal() + "\nRef: " + codeGen +"\n"+"Date:"+date.getDate()+"/"+date.getMonth()+"/"+date.getYear()
@@ -316,6 +313,15 @@ public class Main {
             return "\nTime: "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()+" AM";
         }
         
+    }
+
+    public static String days(int days){
+        if(days>1){
+            return "s";
+        }
+        else{
+            return "";
+        }
     }
 
 }

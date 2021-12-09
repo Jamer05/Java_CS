@@ -49,7 +49,7 @@ public class RecList extends ArrayList {
             oos.close();
             out.close();
         } catch (SecurityException | IOException e) {
-            e.printStackTrace();// Drink coffee now!
+            e.printStackTrace();
         }
     }
 }

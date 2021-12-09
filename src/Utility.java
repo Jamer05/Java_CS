@@ -113,8 +113,8 @@ public class Utility{
         double price =0;
         for (String i : itemEquipment){
             price += equivalentPrice(i);
-            days*=price;
         }
+        days*=price;
         return days;
     }
     public double compute(int [] items){
